@@ -33,7 +33,7 @@ const Roster = () => {
   }
 
   return (
-    <div className="mx-auto min-h-screen py-24">
+    <div className="mx-auto min-h-screen sm:p-24 py-24 px-12 max-w-[1300px] w-[100%]">
       <select
         id="teams"
         onChange={(e) => setSelectedTeam(e.target.value)}

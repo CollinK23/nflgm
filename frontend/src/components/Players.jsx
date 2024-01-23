@@ -3,7 +3,15 @@ import RosteredPlayers from "./RosteredPlayers";
 import { teams, mapPositions, addSuffix } from "../constants/conversions";
 import { useParams, useLocation } from "react-router-dom";
 
-const Players = ({ teamId, week, compare, playerSelector, team }) => {
+const Players = ({
+  teamId,
+  week,
+  compare,
+  playerSelector,
+  team,
+  userSelector,
+  playerReset,
+}) => {
   const { id } = useParams();
   const location = useLocation();
   const [rosterData, setRosterData] = useState(null);
@@ -15,8 +23,14 @@ const Players = ({ teamId, week, compare, playerSelector, team }) => {
           `https://fantasy.espn.com/apis/v3/games/ffl/seasons/2023/segments/0/leagues/${id}?rosterForTeamId=${teamId}&view=mTeam&view=mRoster`
         );
         const data = await response.json();
-        console.log(data);
         setRosterData(data.teams[teamId - 1]);
+
+        if (userSelector) {
+          userSelector(data.teams[teamId - 1], team);
+        }
+        if (playerReset) {
+          playerReset(team);
+        }
       } catch (error) {
         console.error("Error fetching roster data:", error);
       }

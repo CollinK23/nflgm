@@ -21,12 +21,11 @@ const StackedBarGraph = ({
               <PlayerIcon player={player} />
               <div
                 className={`w-[60px] ${
-                  outgoingTotal >= incomingTotal ? "bg-blue" : "bg-dimBlue"
+                  outgoingTotal >= incomingTotal ? "bg-blue" : "bg-darkGrey"
                 } rounded-md text-center flex items-center justify-center`}
                 style={{
                   height: `${
-                    player.tradeData.redraftValue / 50 +
-                    40 * incoming.length +
+                    Math.max(player.tradeData.redraftValue, defaultVal) / 25 +
                     8 * (incoming.length - 1)
                   }px`,
                 }}
@@ -47,12 +46,11 @@ const StackedBarGraph = ({
               >
                 <div
                   className={`w-[60px] ${
-                    outgoingTotal <= incomingTotal ? "bg-blue" : "bg-dimBlue"
+                    outgoingTotal <= incomingTotal ? "bg-blue" : "bg-darkGrey"
                   } rounded-md flex items-center justify-center`}
                   style={{
                     height: `${
-                      player.tradeData.redraftValue / 50 +
-                      40 * outgoing.length +
+                      Math.max(player.tradeData.redraftValue, defaultVal) / 25 +
                       8 * (outgoing.length - 1)
                     }px`,
                   }}

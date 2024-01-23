@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { mapPositions, injuries } from "../constants/conversions";
 
 const RosteredPlayers = ({ player, compare, playerSelector, team }) => {
+  const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    setChecked(false);
+  }, [player.espnId]);
+
   const handlePlayerSelection = () => {
+    setChecked(!checked);
     playerSelector(player.espnId.toString(), team, player);
   };
   const projectedWeekStats = player.stats.find(
@@ -19,6 +26,7 @@ const RosteredPlayers = ({ player, compare, playerSelector, team }) => {
             <input
               type="checkbox"
               className="checkbox"
+              checked={checked}
               onClick={handlePlayerSelection}
             />
           </label>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import StackedBarChart from "./StackedBarChart";
 
-const Compare = ({ team1, team2, handlePopUp }) => {
+const Compare = ({ team1, team2, handlePopUp, user1, user2 }) => {
   const [outgoing, setOutgoing] = useState([]);
   const [incoming, setIncoming] = useState([]);
   const defaultVal = 200;
@@ -47,7 +47,10 @@ const Compare = ({ team1, team2, handlePopUp }) => {
     let totalVal = 0;
 
     for (let i = 0; i < players.length; i++) {
-      if (players[i] !== undefined) {
+      if (
+        players[i] !== undefined &&
+        players[i].tradeData.redraftValue > defaultVal
+      ) {
         totalVal += players[i].tradeData.redraftValue;
       } else {
         totalVal += defaultVal;
@@ -67,18 +70,41 @@ const Compare = ({ team1, team2, handlePopUp }) => {
     <div className="">
       <dialog id="my_modal_4" className="modal">
         <div className="bg-secondary modal-box w-11/12 max-w-5xl">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">Click the button below to close</p>
-
-          <div>
-            <p>
-              Total RedraftValue Team 1:{" "}
-              {(calculateTotalRedraftValue(outgoing) / 200).toFixed(2)}
-            </p>
-            <p>
-              Total RedraftValue Team 2:{" "}
-              {(calculateTotalRedraftValue(incoming) / 200).toFixed(2)}
-            </p>
+          <div className="stats flex justify-center bg-secondary">
+            <div className="stat">
+              <div className="stat-figure text-secondary">
+                <div className="avatar">
+                  <div className="w-16 rounded-full">
+                    <img src={user1.logo} className="absolute"></img>
+                  </div>
+                </div>
+              </div>
+              <div
+                className={`stat-value ${
+                  outgoingTotal >= incomingTotal ? "text-blue" : ""
+                }`}
+              >
+                {outgoingTotal}
+              </div>
+              <div className="stat-title">Outgoing Value</div>
+            </div>
+            <div className="stat">
+              <div className="stat-figure text-secondary">
+                <div className="avatar">
+                  <div className="w-16 rounded-full">
+                    <img src={user2.logo} className="absolute"></img>
+                  </div>
+                </div>
+              </div>
+              <div
+                className={`stat-value ${
+                  incomingTotal >= outgoingTotal ? "text-blue" : ""
+                }`}
+              >
+                {incomingTotal}
+              </div>
+              <div className="stat-title">Incoming Value</div>
+            </div>
           </div>
 
           <StackedBarChart

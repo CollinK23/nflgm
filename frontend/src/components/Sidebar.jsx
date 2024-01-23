@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../constants/logo.svg";
 
 const testData = [
@@ -27,16 +27,21 @@ const testData = [
     leagueId: 509450303,
     teamId: 3,
   },
-  // Add more objects as needed
 ];
 
 const SideNav = () => {
+  const location = useLocation();
   const [expanded, setExpanded] = useState(true);
   const [selected, setSelected] = useState("trade");
 
   const toggleExpanded = () => {
     setExpanded(!expanded);
   };
+
+  if (location.pathname === "/") {
+    return null;
+  }
+
   return (
     <div className="sticky z-10">
       <div

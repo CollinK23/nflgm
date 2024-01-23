@@ -17,7 +17,7 @@ function App() {
             <Route
               path="/"
               element={
-                <div>
+                <div className="mx-auto">
                   <Navbar></Navbar>
                   <Home></Home>
                 </div>

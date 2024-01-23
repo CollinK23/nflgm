@@ -13,22 +13,41 @@ const Trade = () => {
   const [tradePlayers1, setTradePlayers1] = useState(new Map());
   const [tradePlayers2, setTradePlayers2] = useState(new Map());
   const [analyze, setAnalyze] = useState(false);
+  const [userSelected1, setUserSelected1] = useState(null);
+  const [userSelected2, setUserSelected2] = useState(null);
 
   const handlePlayerSelection = (espnId, team, player) => {
+    const setTradePlayers = team ? setTradePlayers1 : setTradePlayers2;
+
+    setTradePlayers((prevTradePlayers) => {
+      const newMap = new Map(prevTradePlayers);
+
+      // Check if player is already selected, then remove
+      if (newMap.has(espnId)) {
+        newMap.delete(espnId);
+      } else {
+        // Add the player to the map
+        newMap.set(espnId, player);
+      }
+
+      return newMap;
+    });
+  };
+
+  const handlePlayerReset = (team) => {
+    const setTradePlayers = team ? setTradePlayers1 : setTradePlayers2;
+
+    setTradePlayers(new Map());
+  };
+
+  const handleUserSelection = (userSelected, team) => {
     if (team) {
-      setTradePlayers1((prevTradePlayers1) => {
-        const newMap = new Map(prevTradePlayers1);
-        newMap.set(espnId, player);
-        return newMap;
-      });
+      setUserSelected1(userSelected);
     } else {
-      setTradePlayers2((prevTradePlayers2) => {
-        const newMap = new Map(prevTradePlayers2);
-        newMap.set(espnId, player);
-        return newMap;
-      });
+      setUserSelected2(userSelected);
     }
   };
+
   const handlePopUp = () => {
     setAnalyze(!analyze);
   };
@@ -50,6 +69,7 @@ const Trade = () => {
 
     fetchData();
   }, []);
+
   if (!rosterData) {
     return <div className="min-h-screen py-24">Loading...</div>;
   }
@@ -60,10 +80,16 @@ const Trade = () => {
           team1={tradePlayers1}
           team2={tradePlayers2}
           handlePopUp={handlePopUp}
+          user1={userSelected1}
+          user2={userSelected2}
         ></Compare>
       ) : null}
 
-      <button className="blue__btn text-white" onClick={handlePopUp}>
+      <button
+        className="blue__btn text-white my-8"
+        type="submit"
+        onClick={handlePopUp}
+      >
         Analyze Trade
       </button>
 
@@ -104,6 +130,8 @@ const Trade = () => {
             compare={true}
             playerSelector={handlePlayerSelection}
             team={1}
+            userSelector={handleUserSelection}
+            playerReset={handlePlayerReset}
           ></Players>
         ) : (
           <div className="flex items-center justify-center h-[500px]">
@@ -116,7 +144,9 @@ const Trade = () => {
             week={week}
             compare={true}
             playerSelector={handlePlayerSelection}
+            userSelector={handleUserSelection}
             team={0}
+            playerReset={handlePlayerReset}
           ></Players>
         ) : (
           <div className="flex items-center justify-center h-[500px]">
