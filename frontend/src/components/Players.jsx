@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import RosteredPlayers from "./RosteredPlayers";
 import { teams, mapPositions, addSuffix } from "../constants/conversions";
 import { useParams, useLocation } from "react-router-dom";
+import PlayerStats from "./PlayerStats";
 
 const Players = ({
   teamId,
@@ -15,6 +16,8 @@ const Players = ({
   const { id } = useParams();
   const location = useLocation();
   const [rosterData, setRosterData] = useState(null);
+  const [viewStats, setViewStats] = useState(false);
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
 
   useEffect(() => {
     const fetchRosterData = async () => {
@@ -46,10 +49,22 @@ const Players = ({
     return <div>Loading roster data...</div>;
   }
 
+  const handleStats = () => {
+    setViewStats(!viewStats);
+  };
+
+  const handleSelectedStats = (player) => {
+    handleStats();
+    setSelectedPlayer(player);
+  };
+
   // Render the roster data as needed
   return (
     <div className="text-white">
-      <div className="bg-primaey p-8">
+      {viewStats ? (
+        <PlayerStats player={selectedPlayer} handlePopUp={handleStats} />
+      ) : null}
+      <div className="bg-primary p-8">
         <div className="flex flex-row space-x-4 items-center">
           <div className="w-[75px] h-[75px] relative">
             <img src={rosterData.logo} className="absolute"></img>
@@ -116,6 +131,7 @@ const Players = ({
                   compare={compare}
                   playerSelector={playerSelector}
                   team={team}
+                  handleSelectedStats={handleSelectedStats}
                 ></RosteredPlayers>
               ))}
           </tbody>

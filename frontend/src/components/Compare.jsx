@@ -10,28 +10,33 @@ const Compare = ({ team1, team2, handlePopUp, user1, user2 }) => {
     document.getElementById("my_modal_4").showModal();
     const fetchPlayerData = async () => {
       try {
-        const response = await fetch(
-          "https://api.fantasycalc.com/values/current?isDynasty=true&numQbs=1&numTeams=12&ppr=1"
-        );
+        const response = await fetch("http://127.0.0.1:8000/");
         const data = await response.json();
 
         const matchingPlayersData1 = [];
         const matchingPlayersData2 = [];
 
-        data.forEach((entry) => {
-          if (team1.has(entry.player.espnId)) {
+        for (const espnId of team1.keys()) {
+          const entry = data.players[espnId];
+
+          if (entry) {
             matchingPlayersData1.push({
               tradeData: entry,
-              espnData: team1.get(entry.player.espnId),
+              espnData: team1.get(espnId),
             });
           }
-          if (team2.has(entry.player.espnId)) {
+        }
+
+        for (const espnId of team2.keys()) {
+          const entry = data.players[espnId];
+
+          if (entry) {
             matchingPlayersData2.push({
               tradeData: entry,
-              espnData: team2.get(entry.player.espnId),
+              espnData: team2.get(espnId),
             });
           }
-        });
+        }
 
         setOutgoing(matchingPlayersData1);
         setIncoming(matchingPlayersData2);

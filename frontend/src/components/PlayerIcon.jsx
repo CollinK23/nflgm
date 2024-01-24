@@ -15,7 +15,7 @@ const PlayerIcon = ({ player }) => {
 
       <div className="">
         {player.espnData.firstName[0]}.{" "}
-        {player.espnData.lastName.length <= 8
+        {player.espnData.lastName.length <= 7
           ? player.espnData.lastName
           : player.espnData.lastName.slice(0, 5) + "..."}
       </div>

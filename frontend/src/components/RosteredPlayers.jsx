@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { mapPositions, injuries } from "../constants/conversions";
+import PlayerStats from "./PlayerStats";
 
-const RosteredPlayers = ({ player, compare, playerSelector, team }) => {
+const RosteredPlayers = ({
+  player,
+  compare,
+  playerSelector,
+  team,
+  handleSelectedStats,
+}) => {
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
@@ -12,12 +19,15 @@ const RosteredPlayers = ({ player, compare, playerSelector, team }) => {
     setChecked(!checked);
     playerSelector(player.espnId.toString(), team, player);
   };
+
   const projectedWeekStats = player.stats.find(
     (stat) => stat.scoringPeriodId === player.week && stat.proTeamId === 0
   );
+
   const weekStats = player.stats.find(
     (stat) => stat.scoringPeriodId === player.week && stat.proTeamId != 0
   );
+
   return (
     <tr>
       {compare ? (
@@ -61,7 +71,10 @@ const RosteredPlayers = ({ player, compare, playerSelector, team }) => {
             </div>
           </div>
           <div>
-            <div className="font-bold">
+            <div
+              className="font-bold"
+              onClick={() => handleSelectedStats(player)}
+            >
               {player.name}{" "}
               <span className="text-red">{injuries[player.injuryStatus]}</span>
             </div>
