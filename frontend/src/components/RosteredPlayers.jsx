@@ -72,7 +72,7 @@ const RosteredPlayers = ({
           </div>
           <div>
             <div
-              className="font-bold"
+              className="font-semibold text-blue cursor-pointer hover:underline"
               onClick={() => handleSelectedStats(player)}
             >
               {player.name}{" "}

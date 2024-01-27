@@ -12,6 +12,7 @@ module.exports = {
         dimBlue: "#72ADDF",
         grey: "#757575",
         red: "#ff0000",
+        green: "#00AC1A",
         pink: "#5c57b7",
         darkGrey: "#353535",
       },
