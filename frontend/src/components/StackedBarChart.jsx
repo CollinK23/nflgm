@@ -15,7 +15,7 @@ const StackedBarGraph = ({
         <div className="flex flex-col space-y-2">
           {outgoing.reverse().map((player) => (
             <div
-              key={player.tradeData.player.espnId}
+              key={player.espnData.espnId}
               className="bar-wrapper flex flex-row items-center space-x-4"
             >
               <PlayerIcon player={player} />
@@ -41,7 +41,7 @@ const StackedBarGraph = ({
           {incoming.reverse().map((player) => (
             <div className="flex flex-row items-center space-x-4">
               <div
-                key={player.tradeData.player.espnId}
+                key={player.espnData.espnId}
                 className="bar-wrapper flex flex-row"
               >
                 <div

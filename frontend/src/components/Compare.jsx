@@ -10,7 +10,7 @@ const Compare = ({ team1, team2, handlePopUp, user1, user2 }) => {
     document.getElementById("my_modal_4").showModal();
     const fetchPlayerData = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/");
+        const response = await fetch("http://127.0.0.1:8000/compare");
         const data = await response.json();
 
         const matchingPlayersData1 = [];
