@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import RosteredPlayers from "./RosteredPlayers";
-import { teams, mapPositions, addSuffix } from "../constants/conversions";
+import {
+  teams,
+  mapPositions,
+  addSuffix,
+  mapDefaultPositions,
+} from "../constants/conversions";
 import { useParams, useLocation } from "react-router-dom";
 import PlayerStats from "./PlayerStats";
 
@@ -120,7 +125,12 @@ const Players = ({
                     name: player.playerPoolEntry.player.fullName,
                     espnId: player.playerPoolEntry.player.id,
                     maybeTeam: teams[player.playerPoolEntry.player.proTeamId],
+                    teamId: player.playerPoolEntry.player.proTeamId,
                     position: mapPositions[player.lineupSlotId],
+                    defaultPosition:
+                      mapDefaultPositions[
+                        player.playerPoolEntry.player.defaultPositionId
+                      ],
                     stats: player.playerPoolEntry.player.stats,
                     week: week,
                     lineupSlotId: player.lineupSlotId,
