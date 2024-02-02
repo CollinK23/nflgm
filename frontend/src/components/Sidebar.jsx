@@ -68,6 +68,17 @@ const SideNav = () => {
               </div>
               GridironInsight
             </Link>
+            <Link to="/dashboard">
+              <div
+                title="Dashboard"
+                className={`flex flex-row items-center w-[100%] h-[40px] text-white text-[16px] cursor-pointer ${
+                  selected == "Dashboard" ? `nav__btn__no__hover` : `nav__btn`
+                }`}
+              >
+                <i className="fa-solid fa-house fa-2xl"></i>
+                Dashboard
+              </div>
+            </Link>
 
             <ul className="menu p-0 menu-dropdown menu-dropdown-toggle">
               {testData.map((item) => (

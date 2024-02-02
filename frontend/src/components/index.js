@@ -4,5 +4,6 @@ import Trade from "./Trade";
 import Roster from "./Roster";
 import SideNav from "./Sidebar";
 import Compare from "./Compare";
+import Dashboard from "./Dashboard";
 
-export { Home, Navbar, Trade, Roster, SideNav, Compare };
+export { Home, Navbar, Trade, Roster, SideNav, Compare, Dashboard };

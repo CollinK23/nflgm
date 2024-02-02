@@ -2,7 +2,15 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { Home, Navbar, Trade, Roster, SideNav, Compare } from "./components";
+import {
+  Home,
+  Navbar,
+  Trade,
+  Roster,
+  SideNav,
+  Compare,
+  Dashboard,
+} from "./components";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -25,6 +33,7 @@ function App() {
             />
             <Route path="/:id/trade" element={<Trade />} />
             <Route path="/:id/roster/:teamId" element={<Roster />} />
+            <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </div>
       </BrowserRouter>
