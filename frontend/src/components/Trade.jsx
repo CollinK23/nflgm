@@ -59,7 +59,6 @@ const Trade = () => {
           `https://fantasy.espn.com/apis/v3/games/ffl/seasons/2023/segments/0/leagues/${id}?viewmMatchup`
         );
         const data = await response.json();
-        console.log(data);
         setRosterData(data);
         setWeek(data.scoringPeriodId);
       } catch (error) {
@@ -96,10 +95,11 @@ const Trade = () => {
       <div className="grid grid-cols-2 gap-x-16">
         <select
           id="teams"
+          defaultValue=""
           onChange={(e) => setSelectedTeam1(e.target.value)}
           className="select w-full max-w-xs bg-secondary"
         >
-          <option disabled selected>
+          <option disabled value="">
             Select a Team
           </option>
           {rosterData.teams.map((team) => (
@@ -108,12 +108,14 @@ const Trade = () => {
             </option>
           ))}
         </select>
+
         <select
           id="teams"
+          defaultValue=""
           onChange={(e) => setSelectedTeam2(e.target.value)}
           className="select w-full max-w-xs bg-secondary"
         >
-          <option disabled selected>
+          <option disabled value="">
             Select a Team
           </option>
           {rosterData.teams.map((team) => (
