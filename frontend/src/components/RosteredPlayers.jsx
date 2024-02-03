@@ -32,13 +32,14 @@ const RosteredPlayers = ({
     <tr>
       {compare ? (
         <th>
-          <label>
+          <label className="checkbox-container">
             <input
               type="checkbox"
-              className="checkbox"
+              className="custom-checkbox"
               checked={checked}
-              onClick={handlePlayerSelection}
+              onChange={handlePlayerSelection}
             />
+            <span className="checkmark"></span>
           </label>
         </th>
       ) : null}
