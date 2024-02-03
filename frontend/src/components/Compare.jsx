@@ -65,8 +65,8 @@ const Compare = ({ team1, team2, handlePopUp, user1, user2 }) => {
     return totalVal;
   };
 
-  const outgoingTotal = (calculateTotalRedraftValue(outgoing) / 200).toFixed(2);
-  const incomingTotal = (calculateTotalRedraftValue(incoming) / 200).toFixed(2);
+  const outgoingTotal = calculateTotalRedraftValue(outgoing) / 200;
+  const incomingTotal = calculateTotalRedraftValue(incoming) / 200;
 
   if (!outgoing || !incoming) {
     return <div className="min-h-screen py-24">Calculating...</div>;
@@ -80,7 +80,7 @@ const Compare = ({ team1, team2, handlePopUp, user1, user2 }) => {
               <div className="stat-figure text-secondary">
                 <div className="avatar">
                   <div className="w-16 rounded-full">
-                    <img src={user1.logo} className="absolute"></img>
+                    <img src={user1.logo} className="absolute" />
                   </div>
                 </div>
               </div>
@@ -89,7 +89,7 @@ const Compare = ({ team1, team2, handlePopUp, user1, user2 }) => {
                   outgoingTotal >= incomingTotal ? "text-blue" : ""
                 }`}
               >
-                {outgoingTotal}
+                {outgoingTotal.toFixed(2)}
               </div>
               <div className="stat-title">Outgoing Value</div>
             </div>
@@ -106,7 +106,7 @@ const Compare = ({ team1, team2, handlePopUp, user1, user2 }) => {
                   incomingTotal >= outgoingTotal ? "text-blue" : ""
                 }`}
               >
-                {incomingTotal}
+                {incomingTotal.toFixed(2)}
               </div>
               <div className="stat-title">Incoming Value</div>
             </div>

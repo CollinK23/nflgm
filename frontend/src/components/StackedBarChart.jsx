@@ -13,7 +13,7 @@ const StackedBarGraph = ({
     <div className="stacked-bar-graph text-white flex justify-center">
       <div className="flex flex-row space-x-4">
         <div className="flex flex-col space-y-2">
-          {outgoing.reverse().map((player) => (
+          {outgoing.map((player) => (
             <div
               key={player.espnData.espnId}
               className="bar-wrapper flex flex-row items-center space-x-4"
@@ -38,12 +38,12 @@ const StackedBarGraph = ({
           ))}
         </div>
         <div className="flex flex-col space-y-2 items-bottom">
-          {incoming.reverse().map((player) => (
-            <div className="flex flex-row items-center space-x-4">
-              <div
-                key={player.espnData.espnId}
-                className="bar-wrapper flex flex-row"
-              >
+          {incoming.map((player) => (
+            <div
+              key={player.espnData.espnId}
+              className="flex flex-row items-center space-x-4"
+            >
+              <div className="bar-wrapper flex flex-row">
                 <div
                   className={`w-[60px] ${
                     outgoingTotal <= incomingTotal ? "bg-blue" : "bg-darkGrey"
