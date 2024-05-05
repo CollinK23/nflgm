@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Players from "./Players";
 import { useParams } from "react-router-dom";
 import Compare from "./Compare";
+import Loading from "./Loading/Loading";
 
 const Trade = () => {
   const { id } = useParams();
@@ -56,7 +57,7 @@ const Trade = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://fantasy.espn.com/apis/v3/games/ffl/seasons/2023/segments/0/leagues/${id}?viewmMatchup`
+          `https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2023/segments/0/leagues/${id}?viewmMatchup`
         );
         const data = await response.json();
         setRosterData(data);
@@ -70,7 +71,11 @@ const Trade = () => {
   }, []);
 
   if (!rosterData) {
-    return <div className="min-h-screen py-24">Loading...</div>;
+    return (
+      <div className="min-h-screen py-24">
+        <Loading />
+      </div>
+    );
   }
   return (
     <div className="min-h-screen mx-auto py-24">

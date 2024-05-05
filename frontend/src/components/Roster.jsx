@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Players from "./Players";
 import { useParams, useLocation } from "react-router-dom";
+import Loading from "./Loading/Loading";
 
 const Roster = () => {
   const location = useLocation();
@@ -14,7 +15,7 @@ const Roster = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://fantasy.espn.com/apis/v3/games/ffl/seasons/2023/segments/0/leagues/${id}?viewmMatchup`
+          `https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2023/segments/0/leagues/${id}?viewmMatchup`
         );
         const data = await response.json();
         console.log(data);
@@ -29,7 +30,11 @@ const Roster = () => {
   }, [location.pathname]);
 
   if (!rosterData) {
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-screen mx-auto">
+        <Loading />
+      </div>
+    );
   }
 
   return (

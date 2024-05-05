@@ -27,7 +27,11 @@ const PlayerStats = ({ player, handlePopUp }) => {
   }, []);
 
   if (!playerData) {
-    return <div></div>;
+    return (
+      <div className="min-h-screen mx-auto">
+        <Loading />
+      </div>
+    );
   }
 
   return (

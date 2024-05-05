@@ -8,6 +8,7 @@ import {
 } from "../constants/conversions";
 import { useParams, useLocation } from "react-router-dom";
 import PlayerStats from "./PlayerStats";
+import Loading from "./Loading/Loading";
 
 const Players = ({
   teamId,
@@ -28,7 +29,7 @@ const Players = ({
     const fetchRosterData = async () => {
       try {
         const response = await fetch(
-          `https://fantasy.espn.com/apis/v3/games/ffl/seasons/2023/segments/0/leagues/${id}?rosterForTeamId=${teamId}&view=mTeam&view=mRoster`
+          `https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2023/segments/0/leagues/${id}?rosterForTeamId=${teamId}&view=mTeam&view=mRoster`
         );
         const data = await response.json();
         setRosterData(data.teams[teamId - 1]);
@@ -51,7 +52,11 @@ const Players = ({
   }, [teamId, location.pathname]);
 
   if (!rosterData) {
-    return <div>Loading roster data...</div>;
+    return (
+      <div className="min-h-screen mx-auto">
+        <Loading />
+      </div>
+    );
   }
 
   const handleStats = () => {
