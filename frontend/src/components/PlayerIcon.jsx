@@ -1,8 +1,9 @@
 import React from "react";
+import { Card } from "./ui/card";
 
 const PlayerIcon = ({ player }) => {
   return (
-    <div className="flex flex-row bg-primary px-4  w-[200px] rounded-md items-center space-x-2">
+    <Card className="flex flex-row px-4  w-[200px] rounded-md items-center space-x-2">
       <div className="text-[12px]">{player.espnData.position}</div>
       {player.tradeData.redraftValue / 200 >= 10 ? (
         <div className="w-[50px] py-2 ">
@@ -19,7 +20,7 @@ const PlayerIcon = ({ player }) => {
           ? player.espnData.lastName
           : player.espnData.lastName.slice(0, 5) + "..."}
       </div>
-    </div>
+    </Card>
   );
 };
 

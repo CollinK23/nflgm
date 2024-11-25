@@ -120,3 +120,45 @@ export function addSuffix(number) {
       return number + "th";
   }
 }
+
+export const positionStatMap = {
+  RB: {
+    "receiving.receptions": 5,
+    "receiving.receivingTargets": 6,
+    "receiving.receivingYards": 7,
+    "receiving.yardsPerReception": 8,
+    "receiving.receivingTouchdowns": 9,
+    "rushing.rushingAttempts": 0,
+    "rushing.rushingYards": 1,
+    "rushing.yardsPerRushAttempt": 2,
+    "rushing.rushingTouchdowns": 3,
+  },
+  WR: {
+    "receiving.receptions": 0,
+    "receiving.receivingTargets": 1,
+    "receiving.receivingYards": 2,
+    "receiving.yardsPerReception": 3,
+    "receiving.receivingTouchdowns": 4,
+    "rushing.rushingAttempts": 6,
+    "rushing.rushingYards": 7,
+    "rushing.yardsPerRushAttempt": 8,
+    "rushing.rushingTouchdowns": 10,
+  },
+  TE: {
+    "receiving.receptions": 0,
+    "receiving.receivingTargets": 1,
+    "receiving.receivingYards": 2,
+    "receiving.yardsPerReception": 3,
+    "receiving.receivingTouchdowns": 4,
+  },
+  QB: {
+    "passing.completionPct": 3,
+    "passing.passingYards": 2,
+    "passing.interceptions": 6,
+    "passing.passingTouchdowns": 5,
+    "rushing.rushingAttempts": 11,
+    "rushing.rushingYards": 12,
+    "rushing.yardsPerRushAttempt": 13,
+    "rushing.rushingTouchdowns": 14,
+  },
+};

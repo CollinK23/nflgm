@@ -10,7 +10,7 @@ const StackedBarGraph = ({
   const defaultVal = 200;
 
   return (
-    <div className="stacked-bar-graph text-white flex justify-center">
+    <div className="stacked-bar-graph flex text-primary-foreground justify-center">
       <div className="flex flex-row space-x-4">
         <div className="flex flex-col space-y-2">
           {outgoing.map((player) => (
@@ -21,7 +21,9 @@ const StackedBarGraph = ({
               <PlayerIcon player={player} />
               <div
                 className={`w-[60px] ${
-                  outgoingTotal >= incomingTotal ? "bg-blue" : "bg-darkGrey"
+                  outgoingTotal >= incomingTotal
+                    ? "bg-primary"
+                    : "bg-secondary border text-secondary-foreground"
                 } rounded-md text-center flex items-center justify-center`}
                 style={{
                   height: `${
@@ -46,7 +48,9 @@ const StackedBarGraph = ({
               <div className="bar-wrapper flex flex-row">
                 <div
                   className={`w-[60px] ${
-                    outgoingTotal <= incomingTotal ? "bg-blue" : "bg-darkGrey"
+                    outgoingTotal <= incomingTotal
+                      ? "bg-primary"
+                      : "bg-secondary border text-secondary-foreground"
                   } rounded-md flex items-center justify-center`}
                   style={{
                     height: `${

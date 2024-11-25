@@ -4,18 +4,91 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --black-gradient: linear-gradient(
-    144.39deg,
-    #ffffff -278.56%,
-    #6d6d6d -78.47%,
-    #11101d 91.61%
-  );
-  --card-shadow: 0px 20px 100px -10px rgba(66, 71, 91, 0.1);
-} */
+@layer base {
+  :root {
+    --background: 211 32% 99%;
+    --foreground: 211 56% 3%;
+    --muted: 211 6% 85%;
+    --muted-foreground: 211 2% 30%;
+    --popover: 211 32% 98%;
+    --popover-foreground: 211 56% 2%;
+    --card: 211 32% 98%;
+    --card-foreground: 211 56% 2%;
+    --border: 211 9% 89%;
+    --input: 211 9% 89%;
+    --primary: 211 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 211 4% 92%;
+    --secondary-foreground: 211 4% 32%;
+    --accent: 211 4% 92%;
+    --accent-foreground: 211 4% 32%;
+    --destructive: 12 94% 28%;
+    --destructive-foreground: 12 94% 88%;
+    --ring: 211 100% 50%;
+    --radius: 0.5rem;
+    --chart-1: 211 100% 50%;
+    --chart-2: 12 94% 57%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --primary-text: #000000;
+  }
 
-body {
-  background: #0e0e0e;
+  .dark {
+    --background: 211 60% 0%;
+    --foreground: 211 26% 100%;
+    --muted: 219.46 9.94% 23.09%;
+    --muted-foreground: 0 2% 70%;
+    --popover: 0 0% 1%;
+    --popover-foreground: 0 0% 100%;
+    --card: 0 0% 1%;
+    --card-foreground: 0 0% 100%;
+    --border: 211 9% 15%;
+    --input: 211 9% 15%;
+    --primary: 211 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 16%;
+    --secondary-foreground: 0 0% 76%;
+    --accent: 0 0% 16%;
+    --accent-foreground: 0 0% 76%;
+    --destructive: 12 94% 57%;
+    --destructive-foreground: 0 0% 0%;
+    --ring: 211 100% 50%;
+    --chart-1: 211 100% 50%;
+    --chart-2: 12 94% 57%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --primary-text: #ffffff;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  .step {
+    counter-increment: step;
+  }
+
+  .step:before {
+    @apply absolute w-8 h-8 bg-muted rounded-full font-medium text-center text-base inline-flex items-center justify-center -indent-px;
+    @apply ml-[-41px];
+    content: counter(step);
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    @apply px-4;
+  }
 }
 
 * {
@@ -232,4 +305,9 @@ body {
 
 .custom-checkbox:checked ~ .checkmark:after {
   display: block;
+}
+
+.grid__bg {
+  background-image: linear-gradient(-90deg, #23262ae0 0%, #000000 60%),
+    url(https://assets.website-files.com/63f5d36e1bfb159570f6408c/63feed1d49df0b0ba2f037d8_Grid.svg);
 }

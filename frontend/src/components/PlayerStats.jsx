@@ -1,125 +1,132 @@
-import React, { useState, useEffect } from "react";
 import {
-  mapPositions,
-  injuries,
-  teams,
-  teamColors,
-} from "../constants/conversions";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import React, { useState } from "react";
+import { injuries, teams, teamColors } from "../constants/conversions";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "./ui/table";
 
-const PlayerStats = ({ player, handlePopUp }) => {
+import { Card } from "./ui/card";
+
+export function PlayerStats({ player }) {
   const [playerData, setPlayerData] = useState(null);
 
-  useEffect(() => {
-    const fetchPlayerData = async () => {
-      try {
-        const response = await fetch(
-          `http://127.0.0.1:8000/stats/${player.espnId}`
-        );
-        const data = await response.json();
+  const fetchPlayerData = async () => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/stats/${player.espnId}`
+      );
+      const data = await response.json();
 
-        setPlayerData(data);
-      } catch (error) {
-        console.error("Error fetching player data:", error);
-      }
-    };
-
-    fetchPlayerData();
-  }, []);
-
-  if (!playerData) {
-    return (
-      <div className="min-h-screen mx-auto">
-        <Loading />
-      </div>
-    );
-  }
-
+      setPlayerData(data);
+    } catch (error) {
+      console.error("Error fetching player data:", error);
+    }
+  };
   return (
-    <div>
-      <dialog id="my_modal_4" className="modal modal-open">
-        <div className="bg-secondary modal-box w-11/12 max-w-5xl p-0">
-          <div className="flex flex-row rounded-md">
-            <div className="h-[203px] w-[280px]">
-              {player.espnId >= 0 ? (
-                <div className="relative">
-                  <img
-                    src={`https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/${player.espnId}.png&w=280&h=203`}
-                    alt={player.name}
-                    className="absolute top-0 z-10"
-                  />
-                  <div
-                    className="h-[203px] w-[280px] absolute top-0 z-0 transform skew-x-[-30deg]"
-                    style={{
-                      backgroundImage: `linear-gradient(to top, ${
-                        teamColors[player.teamId]
-                      }b5,  ${teamColors[player.teamId]}30, #00000000)`,
-                    }}
-                  ></div>
-                </div>
-              ) : (
+    <Dialog>
+      <DialogTrigger asChild>
+        <div onClick={fetchPlayerData}>
+          {player.name}
+          {injuries[player.injuryStatus] && (
+            <span className="text-[#ff0000]">
+              {` ${injuries[player.injuryStatus]}`}
+            </span>
+          )}
+        </div>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[800px] sm:max-h-[700px]">
+        <DialogHeader>
+          <DialogTitle>View Stats</DialogTitle>
+        </DialogHeader>
+        {/* turn this into component right here v */}
+        <Card className="flex flex-row overflow-x-hidden">
+          <div className="h-[203px] w-[280px]">
+            {player.espnId >= 0 ? (
+              <div className="relative">
                 <img
-                  src={`https://a.espncdn.com/i/teamlogos/nfl/500/${player.maybeTeam}.png`}
-                  alt={player.maybeTeam}
+                  src={`https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/${player.espnId}.png&w=280&h=203`}
+                  alt={player.name}
+                  className="absolute top-0 z-10"
                 />
-              )}
-            </div>
-            <div className="flex flex-col p-8">
-              <div className="font-semibold text-[20px]">{player.name}</div>
-              <div>{player.maybeTeam}</div>
-              <div>{player.defaultPosition}</div>
-            </div>
+                <div
+                  className="h-[203px] w-[280px] absolute top-0 z-0 transform skew-x-[-30deg]"
+                  style={{
+                    backgroundImage: `linear-gradient(to top, ${
+                      teamColors[player.teamId]
+                    }b5,  ${teamColors[player.teamId]}30, #00000000)`,
+                  }}
+                ></div>
+              </div>
+            ) : (
+              <img
+                src={`https://a.espncdn.com/i/teamlogos/nfl/500/${player.maybeTeam}.png`}
+                alt={player.maybeTeam}
+              />
+            )}
           </div>
-
-          <div className="overflow-x-auto">
-            <table className="table table-xs">
-              <thead className="bg-darkGrey">
-                <th></th>
-                <th>Opp</th>
-                <th>Score</th>
-                {playerData.labels.map((stat, i) => (
-                  <th key={i}>{stat}</th>
-                ))}
-                <th></th>
-              </thead>
-              <tbody>
+          <div className="flex flex-col p-8">
+            <div className="font-semibold text-[20px]">{player.name}</div>
+            <div>Team: {player.maybeTeam}</div>
+            <div>Pos: {player.defaultPosition}</div>
+          </div>
+        </Card>
+        {playerData && (
+          <Card className="overflow-x-auto max-h-[300px]">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead></TableHead>
+                  <TableHead>Opp</TableHead>
+                  <TableHead>Score</TableHead>
+                  {playerData.labels.map((stat, i) => (
+                    <TableHead key={i}>{stat}</TableHead>
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {playerData.games.map((game, i) => (
-                  <tr
-                    key={i}
-                    className={`border-b border-darkGrey ${
-                      game[1].atVs.length > 4 ? "bg-darkGrey" : "bg-secondary"
-                    }`}
-                  >
-                    <th></th>
-                    <th className="flex flex-row items-center">
-                      {game[1].atVs}{" "}
-                      {game[1].opponentId !== null && teams[game[1].opponentId]}
-                    </th>
-                    <th
+                  <TableRow key={i}>
+                    <TableCell></TableCell>
+                    <TableCell>
+                      {`${game[1].atVs} ${
+                        game[1].opponentId !== null && teams[game[1].opponentId]
+                          ? teams[game[1].opponentId]
+                          : ""
+                      }`}
+                    </TableCell>
+                    <TableCell
                       className={`${
-                        game[1].gameResult == "W" ? "text-green" : "text-red"
-                      } whitespace-nowrap`}
+                        game[1].gameResult == "W"
+                          ? "text-[#008800]"
+                          : game[1].gameResult == "L"
+                          ? "text-[#ff0000]"
+                          : ""
+                      } whitespace-nowrap text-[14px]`}
                     >
-                      {game[1].gameResult}{" "}
-                      <span className="text-white">{game[1].score}</span>
-                    </th>
+                      {game[1].gameResult} <span>{game[1].score}</span>
+                    </TableCell>
                     {game[1].stats
                       ? game[1].stats.map((stat, j) => <th>{stat}</th>)
                       : null}
-                    <th></th>
-                  </tr>
+                    <TableCell></TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="modal-action p-4">
-            <button className="text-white blue__btn" onClick={handlePopUp}>
-              Close
-            </button>
-          </div>
-        </div>
-      </dialog>
-    </div>
+              </TableBody>
+            </Table>
+          </Card>
+        )}
+      </DialogContent>
+    </Dialog>
   );
-};
-
-export default PlayerStats;
+}
