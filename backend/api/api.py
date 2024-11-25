@@ -279,7 +279,7 @@ def getPositionLeaders(pos, categoryParam = "offense"):
         
     return leaders
 
-def getLeagueData(url, swid, espn_s2):
+def getPrivateLeagueData(url, swid, espn_s2):
     if swid and espn_s2:
         response = requests.get(url, cookies={"SWID": swid, "espn_s2": espn_s2})
     else:
@@ -290,5 +290,6 @@ def getLeagueData(url, swid, espn_s2):
         return json.dumps(data)
     else:
         return f"Failed to fetch data. Status code: {response.status_code}"
+
         
             

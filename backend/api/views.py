@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .api import getTradeValue, getPlayerStats, getUserLeagues, getPlayersAndPositions, getPositionLeaders, getLeagueData
+from .api import getTradeValue, getPlayerStats, getUserLeagues, getPlayersAndPositions, getPositionLeaders, getPrivateLeagueData
 from django.core.cache import cache
 import json
 
@@ -90,6 +90,6 @@ def get_league_data(request):
     url = request.query_params.get('url')
     swid = request.query_params.get('swid')
     espn_s2 = request.query_params.get('espn_s2')
-
-    data = getLeagueData(url, swid, espn_s2)
+    
+    data = getPrivateLeagueData(url, swid, espn_s2)
     return Response(json.loads(data))
