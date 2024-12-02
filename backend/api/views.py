@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .api import getTradeValue, getPlayerStats, getUserLeagues, getPlayersAndPositions, getPositionLeaders, getPrivateLeagueData
+from .api import getTradeValue, getPlayerStats, getUserLeagues, getPlayersAndPositions, getPositionLeaders, getPrivateLeagueData, getPlayerRankings, getWeek
 from django.core.cache import cache
 import json
 
@@ -36,7 +36,6 @@ def get_player_stats(request, player_id):
             playerStats,
             timeout=86400,
         )
-        print("Hit the endpoint", playerStats)
 
     return Response(json.loads(playerStats))
 
@@ -93,3 +92,40 @@ def get_league_data(request):
     
     data = getPrivateLeagueData(url, swid, espn_s2)
     return Response(json.loads(data))
+
+@api_view(['GET'])
+def get_player_rankings(request):
+    slotId = request.query_params.get('slotId')
+    scoring = request.query_params.get('scoring')
+    week = request.query_params.get('week')
+    totals = request.query_params.get('totals')
+    offset = request.query_params.get('offset')
+
+    id = slotId + scoring + week + totals + offset
+
+    if cache.get(id):
+        playerRankings = cache.get(id)
+    else:
+        playerRankings = getPlayerRankings([int(num) for num in slotId.split(",")], scoring, week, totals, offset)
+        cache.set(
+            id,
+            playerRankings,
+            timeout=300
+        )
+
+    return Response(json.loads(playerRankings))
+
+@api_view(['GET'])
+def get_week(request):
+    id = "weekAndSeason"
+    if cache.get(id):
+        week = cache.get(id)
+    else:
+        week = getWeek()
+        cache.set(
+            id,
+            week,
+            timeout=3600
+        )
+
+    return Response(json.loads(week))

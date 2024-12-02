@@ -290,6 +290,68 @@ def getPrivateLeagueData(url, swid, espn_s2):
         return json.dumps(data)
     else:
         return f"Failed to fetch data. Status code: {response.status_code}"
+    
+def getPlayerRankings(slotId, scoring, week, totals, offset):
+    scoringId = {"PPR": 3, "STANDARD": 1}
+    url = f"https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leaguedefaults/{scoringId[scoring]}?scoringPeriodId=0&view=kona_player_info"
+
+    print(scoring)
+
+    x_fantasy_filter = {}
+
+    if totals == "false":
+        x_fantasy_filter = {
+            "players": {
+                "filterSlotIds": {"value": slotId},
+                "filterStatsForCurrentSeasonScoringPeriodId": {"value": [week]},
+                "sortPercOwned": {"sortPriority": 3, "sortAsc": False},
+                "limit": 100,
+                "offset": offset,
+                "sortAppliedStatTotalForScoringPeriodId": {"sortAsc": False, "sortPriority": 1, "value": week},
+                "filterRanksForScoringPeriodIds": {"value": [week]},
+                "filterRanksForRankTypes": {"value": [scoring]},
+                "filterRanksForSlotIds": {"value": [0, 2, 4, 6, 17, 16, 8, 9, 10, 12, 13, 24, 11, 14, 15]}
+            }
+        }
+    else:
+        x_fantasy_filter = {
+            "players": {
+                "filterSlotIds": {"value": slotId},
+                "sortPercOwned": {"sortPriority": 3, "sortAsc": False},
+                "limit": 100,
+                "offset": offset,
+                "sortAppliedStatTotal": {"sortAsc": False, "sortPriority": 1, "value": "002024"},
+                "filterRanksForScoringPeriodIds": {"value": [week]},
+                "filterRanksForRankTypes": {"value": [scoring]},
+                "filterRanksForSlotIds": {"value": [0, 2, 4, 6, 17, 16, 8, 9, 10, 12, 13, 24, 11, 14, 15]},
+                "filterStatsForTopScoringPeriodIds": {"value": 2,"additionalValue": ["002024", "102024", "002023", "022024"]}
+            }
+        }
+
+    print(x_fantasy_filter)
+
+    x_fantasy_filter_str = json.dumps(x_fantasy_filter)
+
+    headers = {"Content-Type": "application/json", "x-fantasy-filter": x_fantasy_filter_str}
+
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        data = response.json()
+        print(data)
+        return json.dumps(data)
+    else:
+        return f"Failed to fetch data. Status code: {response.status_code}"
+    
+def getWeek():
+    url = f"https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/events"
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        return json.dumps({"week": data["$meta"]["parameters"]["week"][0], "season": data["$meta"]["parameters"]["season"][0]})
+    else:
+        return f"Failed to fetch data. Status code: {response.status_code}"
 
         
             
