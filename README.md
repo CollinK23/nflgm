@@ -7,7 +7,7 @@ Application for analyzing fantasy football rosters and trade scenarios
 ### Receive insight on potential trades
 ![2](/screenshots/2.png)
 ### Compare player statistics
-![3](/screenshots/3.png)
+![3](/screenshots/4.jpeg)
 
 ## Tech Stack
 - React.js - Frontend
