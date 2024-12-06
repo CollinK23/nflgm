@@ -66,7 +66,7 @@ const Navbar = () => {
         </ul>
       </div>
       <ModeToggle></ModeToggle>
-      <Button>Sync Leagues</Button>
+      {/* <Button>Sync Leagues</Button> */}
     </header>
   );
 };

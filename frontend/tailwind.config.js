@@ -20,6 +20,14 @@ module.exports = {
       },
     },
     extend: {
+      screens: {
+        custom: "2037px",
+      },
+
+      backgroundImage: {
+        chart2: "linear-gradient(to right, hsl(var(--chart-2)) , transparent)",
+        chart1: "linear-gradient(to right, hsl(var(--chart-1)) , transparent)",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

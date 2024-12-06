@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx", // or "react" for older React versions
+    "module": "esnext",
+    "target": "es6",
+    "strict": true,
+    "esModuleInterop": true
+  }
+}
