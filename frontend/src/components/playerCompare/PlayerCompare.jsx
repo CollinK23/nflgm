@@ -235,20 +235,22 @@ const PlayerCompare = () => {
               position={position}
             />
           )}
-          {chartData && (
-            <RadarChartCard
-              positon={position}
-              chartConfig={chartConfig}
-              chartData={chartData}
-            />
-          )}
-          {lineChartData ? (
-            <LineGraph
-              chartData={lineChartData}
-              player1={value0}
-              player2={value1}
-            ></LineGraph>
-          ) : null}
+          <div className="flex flex-col custom:flex-row gap-2">
+            {chartData && (
+              <RadarChartCard
+                positon={position}
+                chartConfig={chartConfig}
+                chartData={chartData}
+              />
+            )}
+            {lineChartData ? (
+              <LineGraph
+                chartData={lineChartData}
+                player1={value0}
+                player2={value1}
+              ></LineGraph>
+            ) : null}
+          </div>
         </CardHeader>
       </CardContent>
     </Card>

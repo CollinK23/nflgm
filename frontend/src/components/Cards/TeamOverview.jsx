@@ -44,6 +44,7 @@ export default function TeamOverview({
   const [tempEspn_s2, setTempEspn_s2] = useState(espn_s2);
   const [tempSwid, setTempSwid] = useState(swid);
   const [week, setWeek] = useState(0);
+  const [privateLeague, setPrivateLeague] = useState(false);
 
   useEffect(() => {
     const fetchRosterData = async () => {
@@ -57,6 +58,10 @@ export default function TeamOverview({
           response = await fetch(
             `http://127.0.0.1:8000/league/?url=https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/${id}?rosterForTeamId=${teamId}%26view=mTeam%26view=mRoster`
           );
+        }
+
+        if (response.status === 500) {
+          setPrivateLeague(true);
         }
 
         const data = await response.json();
@@ -75,7 +80,22 @@ export default function TeamOverview({
     fetchRosterData();
   }, [location.pathname, id, teamId, swid, espn_s2]);
 
-  if (!rosterData && (!swid || !espn_s2)) {
+  if (location.pathname.endsWith("/dashboard") && swid) {
+    return (
+      <Card className="sm:col-span-2" x-chunk="dashboard-05-chunk-0">
+        <CardHeader className="pb-3">
+          <CardTitle>Select A League</CardTitle>
+          <CardDescription className=" leading-relaxed">
+            Select a league to view detailed stats, player rankings, and
+            performance updates.
+          </CardDescription>
+        </CardHeader>
+        <CardFooter></CardFooter>
+      </Card>
+    );
+  }
+
+  if (!rosterData && (!swid || !espn_s2) && privateLeague) {
     return (
       <Card className="sm:col-span-2" x-chunk="dashboard-05-chunk-0">
         <CardHeader className="pb-3">
@@ -93,7 +113,6 @@ export default function TeamOverview({
                   value={tempEspn_s2}
                   className="col-span-3"
                   onChange={(e) => {
-                    console.log("espn_s2 input changed:", e.target.value);
                     setTempEspn_s2(e.target.value);
                   }}
                 />

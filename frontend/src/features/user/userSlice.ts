@@ -36,6 +36,8 @@ export interface UserState {
   userId: string;
   selectedLeague: string | null;
   swid?: string;
+  week: number;
+  season: number;
 }
 
 const initialState: UserState = {
@@ -52,6 +54,8 @@ const initialState: UserState = {
     },
   },
   selectedLeague: null,
+  week: null,
+  season: null,
 };
 
 export const userSlice = createSlice({
@@ -119,6 +123,13 @@ export const userSlice = createSlice({
     updateSwid: (state, action: PayloadAction<string>) => {
       state.swid = action.payload;
     },
+    updateWeekAndSeason: (
+      state,
+      action: PayloadAction<{ week: string; season: string }>
+    ) => {
+      state.week = Number(action.payload.week);
+      state.season = Number(action.payload.season);
+    },
   },
 });
 
@@ -131,6 +142,7 @@ export const {
   updateSelectedLeague,
   updateEspnS2,
   updateSwid,
+  updateWeekAndSeason,
 } = userSlice.actions;
 
 const persistConfig = {

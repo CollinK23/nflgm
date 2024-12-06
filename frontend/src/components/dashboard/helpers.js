@@ -1,4 +1,5 @@
 export const handlePathChange = (value, location) => {
+  value = value.replace(/\s+/g, "");
   let pathSegments = location.pathname.replace(/^\/+|\/+$/g, "").split("/");
 
   const lastSegment = pathSegments[pathSegments.length - 1];
@@ -10,7 +11,9 @@ export const handlePathChange = (value, location) => {
       pathSegments.push(value);
     }
   } else if (isLastSegmentDashboard) {
-    if (value !== "dashboard") {
+    if (value == "rankings") {
+      pathSegments.push(value);
+    } else if (value !== "dashboard") {
       return;
     }
   } else {

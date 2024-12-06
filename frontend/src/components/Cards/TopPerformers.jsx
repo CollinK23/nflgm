@@ -5,6 +5,7 @@ import {
   mapDefaultPositions,
   teams,
 } from "../../constants/conversions";
+import { PlayerStats } from "../PlayerStats";
 
 export default function TopPerformers({ team, className, week }) {
   const weekStatsCache = useMemo(() => ({}), []);
@@ -74,7 +75,21 @@ export default function TopPerformers({ team, className, week }) {
                   <div className="flex items-center justify-between w-[70%] pr-4">
                     <div className="flex flex-col justify-center">
                       <div className="font-semibold text-[16px]">
-                        {player.playerPoolEntry.player.fullName}
+                        <PlayerStats
+                          player={{
+                            espnId: player.playerPoolEntry.id,
+                            name: player.playerPoolEntry.player.fullName,
+                            injuryStatus:
+                              player.playerPoolEntry.player.injuryStatus,
+                            teamId: player.playerPoolEntry.player.proTeamId,
+                            maybeTeam:
+                              teams[player.playerPoolEntry.player.proTeamId],
+                            defaultPosition:
+                              mapDefaultPositions[
+                                player.playerPoolEntry.player.defaultPositionId
+                              ],
+                          }}
+                        />
                       </div>
                       <div className="text-[14px]">
                         Team: {teams[player.playerPoolEntry.player.proTeamId]}

@@ -36,7 +36,10 @@ export function PlayerStats({ player }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div onClick={fetchPlayerData}>
+        <div
+          onClick={fetchPlayerData}
+          className="hover:underline cursor-pointer"
+        >
           {player.name}
           {injuries[player.injuryStatus] && (
             <span className="text-[#ff0000]">

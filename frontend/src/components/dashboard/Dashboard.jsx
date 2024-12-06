@@ -27,6 +27,7 @@ import {
   addLeague,
   updateSwid,
   updateUserId,
+  updateWeekAndSeason,
 } from "../../features/user/userSlice";
 import {
   Dialog,
@@ -40,8 +41,9 @@ import {
 } from "../ui/dialog";
 import { Breadcrumbs } from "../Breadcrumb";
 import { handlePathChange } from "./helpers";
+import { WeeklyRankings } from "../../rankings/Rankings";
 
-const sections = ["Dashboard", "Roster", "Trade", "Compare"];
+const sections = ["Dashboard", "Roster", "Trade", "Compare", "Rankings"];
 
 export default function Dashboard() {
   const { page, id, teamId } = useParams();
@@ -54,6 +56,7 @@ export default function Dashboard() {
 
   const [tempUserId, setTempUserId] = useState(userId);
   const [tempSwid, setTempSwid] = useState(swid);
+  const [open, setOpen] = useState(!userId);
 
   const fetchData = async () => {
     if (userId == "") {
@@ -75,6 +78,20 @@ export default function Dashboard() {
     fetchData();
   }, [userId]);
 
+  const fetchWeek = async () => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/week/`);
+      const data = await response.json();
+      dispatch(updateWeekAndSeason({ week: data.week, season: data.season }));
+    } catch (error) {
+      console.error("error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchWeek();
+  }, []);
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -92,6 +109,7 @@ export default function Dashboard() {
               {sections.map((s) => {
                 return (
                   <div
+                    key={s}
                     className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary cursor-pointer"
                     onClick={() =>
                       navigate(handlePathChange(s.toLowerCase(), location))
@@ -124,6 +142,7 @@ export default function Dashboard() {
                 {sections.map((s) => {
                   return (
                     <div
+                      key={s}
                       className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary cursor-pointer"
                       onClick={() => handleChange(s.toLowerCase())}
                     >
@@ -140,7 +159,7 @@ export default function Dashboard() {
             <Breadcrumbs />
           </div>
           <ModeToggle></ModeToggle>
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -214,7 +233,13 @@ export default function Dashboard() {
               <TeamOverview
                 id={id}
                 teamId={teamId}
-                footerContent={<Button>View Roster</Button>}
+                footerContent={
+                  <Button
+                    onClick={() => navigate(`${location.pathname}/roster`)}
+                  >
+                    View Roster
+                  </Button>
+                }
                 showStandings={true}
                 showTopPerformers={true}
               />
@@ -244,6 +269,7 @@ export default function Dashboard() {
               </div>
             )}
             {page === "compare" && <PlayerCompare />}
+            {page === "rankings" && <WeeklyRankings />}
           </div>
         </main>
       </div>

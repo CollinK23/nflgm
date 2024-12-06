@@ -27,8 +27,6 @@ export default function TeamSelect() {
       const response = await fetch(`http://127.0.0.1:8000/leagues/${espnId}`);
       const data = await response.json();
       dispatch(addLeague(data));
-
-      console.log(leagues);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -43,7 +41,7 @@ export default function TeamSelect() {
     );
   }, [location.pathname, espnId]);
 
-  const pages = ["roster", "trade", "compare"];
+  const pages = ["roster", "trade", "compare", "rankings"];
 
   const handleChange = (value) => {
     const pathSegments = location.pathname.replace(/^\/+|\/+$/g, "").split("/");
@@ -75,7 +73,10 @@ export default function TeamSelect() {
         <SelectGroup>
           {leagues.map((item) => {
             return (
-              <SelectItem value={`${item.groupId}/${item.teamId}`}>
+              <SelectItem
+                key={item.groupId}
+                value={`${item.groupId}/${item.teamId}`}
+              >
                 {item.groupName.length > 15
                   ? `${item.groupName.slice(0, 15)}...`
                   : item.groupName}

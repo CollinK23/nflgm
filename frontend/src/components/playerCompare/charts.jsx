@@ -44,8 +44,8 @@ export function ComparePlayerCards({
 }) {
   return (
     <div className="flex flex-row justify-center gap-2 pb-2">
-      <Card className="flex flex-row overflow-x-hidden w-full">
-        <div className="h-[203px] w-[280px]">
+      <Card className="flex flex-row overflow-hidden w-full max-h-[150px]">
+        <div className="h-[150px] w-[207px]">
           <div className="relative">
             <img
               src={`https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/${espnId1}.png&w=280&h=203`}
@@ -53,7 +53,7 @@ export function ComparePlayerCards({
               className="absolute top-0 z-10"
             />
             <div
-              className="h-[203px] w-[280px] absolute top-0 z-0 transform skew-x-[-30deg]"
+              className="h-[150px] w-[207px] absolute top-0 z-0 transform skew-x-[-30deg]"
               style={{
                 backgroundImage: `linear-gradient(to top, ${"#0070FF"}b5,  ${"#0070FF"}30, #00000000)`,
               }}
@@ -67,8 +67,8 @@ export function ComparePlayerCards({
         </div>
       </Card>
 
-      <Card className="flex flex-row overflow-x-hidden w-full">
-        <div className="h-[203px] w-[280px]">
+      <Card className="flex flex-row overflow-hidden w-full max-h-[150px]">
+        <div className="h-[150px] w-[207px]">
           <div className="relative">
             <img
               src={`https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/${espnId2}.png&w=280&h=203`}
@@ -76,7 +76,7 @@ export function ComparePlayerCards({
               className="absolute top-0 z-10"
             />
             <div
-              className="h-[203px] w-[280px] absolute top-0 z-0 transform skew-x-[-30deg]"
+              className="h-[150px] w-[207px] absolute top-0 z-0 transform skew-x-[-30deg]"
               style={{
                 backgroundImage: `linear-gradient(to top, ${"#f8542a"}b5,  ${"#f8542a"}30, #00000000)`,
               }}
@@ -146,7 +146,7 @@ export const RadarData = ({ chartConfig, chartData, position }) => {
 
 export const RadarChartCard = ({ position, chartConfig, chartData }) => {
   return (
-    <Card>
+    <Card className="w-full">
       <CardHeader className="items-center pb-4">
         <CardTitle>Radar Chart</CardTitle>
         <CardDescription>League-wide {position} percentiles</CardDescription>
@@ -186,7 +186,7 @@ export const LineGraph = ({ chartData, player1, player2 }) => {
   };
 
   return (
-    <Card>
+    <Card className="w-full">
       <CardHeader className="items-center flex flex-row justify-between">
         <div>
           <CardTitle>
