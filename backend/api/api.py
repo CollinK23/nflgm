@@ -353,5 +353,17 @@ def getWeek():
     else:
         return f"Failed to fetch data. Status code: {response.status_code}"
 
+def getLeagueSettings(league_id):
+    url = f"https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2024/segments/0/leagues/{league_id}?view=mSettings&view=mTeam&view=modular&view=mNav"
+
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        return json.dumps(data["settings"])
+    else:
+        return f"Failed to fetch data. Status code: {response.status_code}"
+
+
         
             
