@@ -8,5 +8,7 @@ urlpatterns = [
     path('players/<str:position>', views.get_players_and_positions),
     path('league/', views.get_league_data),
     path('rankings/', views.get_player_rankings),
-    path('week/', views.get_week)
+    path('week/', views.get_week),
+    path('league/settings/', views.get_league_settings)
+
 ]

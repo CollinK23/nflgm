@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .api import getTradeValue, getPlayerStats, getUserLeagues, getPlayersAndPositions, getPositionLeaders, getPrivateLeagueData, getPlayerRankings, getWeek
+from .api import getTradeValue, getPlayerStats, getUserLeagues, getPlayersAndPositions, getPositionLeaders, getPrivateLeagueData, getPlayerRankings, getWeek, getLeagueSettings
 from django.core.cache import cache
 import json
 
@@ -129,3 +129,19 @@ def get_week(request):
         )
 
     return Response(json.loads(week))
+
+@api_view(['GET'])
+def get_league_settings(request):
+    league_id = request.query_params.get('leagueId')
+    id = "LeagueSettings" + league_id
+    if cache.get(id):
+        leagueSettings = cache.get(id)
+    else:
+        leagueSettings = getLeagueSettings(league_id)
+        cache.set(
+            id,
+            leagueSettings,
+            timeout=3600
+        )
+
+    return Response(json.loads(leagueSettings))
